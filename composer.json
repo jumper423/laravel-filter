@@ -1,0 +1,23 @@
+{
+    "name": "jumper423/laravel-filter",
+    "description": "Laravel фильтрация по полям",
+    "keywords": ["filter", "search", "query", "column", "laravel"],
+    "license": "Apache 2.0",
+    "authors": [
+        {
+            "name": "Влад Пасечник",
+            "email": "jump.e.r@yandex.ru"
+        }
+    ],
+    "require": {
+        "php": ">=5.5.9",
+        "Illuminate/Support": "5.*",
+        "Illuminate/Database": "5.*"
+    },
+    "autoload": {
+        "psr-4": {
+            "jumper423\\LaravelTrait\\": "src/"
+        }
+    },
+    "minimum-stability": "dev"
+}
