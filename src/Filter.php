@@ -22,11 +22,13 @@ trait Filter
             $filter = Input::get('filter');
         }
         if (is_array($filter)) {
-            $columns = $this->getColumns();
+            $columns = $this->getFilterColumns();
             if (count($columns)) {
                 $query->where(function($query) use($filter, $columns){
                     foreach ($filter as $item) {
-                        if (!isset($columns[$item['name']]) && !is_null($item['value'])) {
+                        if (!array_key_exists('name', $item) ||
+                            !array_key_exists('value', $item) ||
+                            !isset($columns[$item['name']]) || is_null($item['value'])) {
                             continue;
                         }
                         $query->where($columns[$item['name']], '=', $item['value']);
@@ -40,7 +42,7 @@ trait Filter
     /**
      * @return array
      */
-    private function getColumns()
+    private function getFilterColumns()
     {
         if (!isset($this->filterColumns)) {
             return [];
