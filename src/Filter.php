@@ -26,7 +26,8 @@ trait Filter
             if (count($columns)) {
                 $query->where(function($query) use($filter, $columns){
                     foreach ($filter as $item) {
-                        if (!array_key_exists('name', $item) ||
+                        if (!is_array($item) ||
+                            !array_key_exists('name', $item) ||
                             !array_key_exists('value', $item) ||
                             !isset($columns[$item['name']]) || is_null($item['value'])) {
                             continue;
