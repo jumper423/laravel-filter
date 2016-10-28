@@ -29,10 +29,23 @@ trait Filter
                         if (!is_array($item) ||
                             !array_key_exists('name', $item) ||
                             !array_key_exists('value', $item) ||
-                            !isset($columns[$item['name']]) || is_null($item['value'])) {
+                            !isset($columns[ltrim($item['name'], '!')]) || is_null($item['value'])) {
                             continue;
                         }
-                        $query->where($columns[$item['name']], '=', $item['value']);
+                        if ($item['name'] != ltrim($item['name'], '!')) {
+                            $item['name'] = ltrim($item['name']);
+                            if (is_array($item['value'])) {
+                                $query->whereNotIn($columns[$item['name']], $item['value']);
+                            } else {
+                                $query->where($columns[$item['name']], '!=', $item['value']);
+                            }
+                        } else {
+                            if (is_array($item['value'])) {
+                                $query->whereIn($columns[$item['name']], $item['value']);
+                            } else {
+                                $query->where($columns[$item['name']], '=', $item['value']);
+                            }
+                        }
                     }
                 });
             }
