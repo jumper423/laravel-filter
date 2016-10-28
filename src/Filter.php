@@ -43,7 +43,13 @@ trait Filter
                             if (is_array($item['value'])) {
                                 $query->whereIn($columns[$item['name']], $item['value']);
                             } else {
-                                $query->where($columns[$item['name']], '=', $item['value']);
+                                if ($item['value'] == 'null' || $item['value'] == 'NULL') {
+                                    $query->whereNull($columns[$item['name']]);
+                                } else if ($item['value'] == 'not_null' || $item['value'] == 'NOT_NULL') {
+                                    $query->whereNotNull($columns[$item['name']]);
+                                } else {
+                                    $query->where($columns[$item['name']], '=', $item['value']);
+                                }
                             }
                         }
                     }
